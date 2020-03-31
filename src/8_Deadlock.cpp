@@ -22,8 +22,10 @@ void transfer(Account &from, Account &to, int amount) {
 	from.lock();
 	to.lock();
 	
-	from.withdraw(amount);
-	to.deposit(amount);
+	if(from.getBalance()>=amount){
+		from.withdraw(amount);
+		to.deposit(amount);
+	}
 	
 	from.unlock();	
 	to.unlock();
@@ -32,7 +34,7 @@ void transfer(Account &from, Account &to, int amount) {
 void fun1(int amount, int numbiterations){
 	while (numbiterations > 0) {
 		transfer(a1, a2, amount);
-		transfer(a2, a1, amount);	//add this and it will deadlock every time
+//		transfer(a2, a1, amount);	//add this and it will deadlock every time
 		numbiterations--;
 	}
 }
